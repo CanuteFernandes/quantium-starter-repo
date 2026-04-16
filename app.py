@@ -10,6 +10,7 @@ from dash import dcc, html
 BASE_DIR = Path(__file__).resolve().parent
 OUTPUT_FILE = BASE_DIR / "output.csv"
 PRICE_CHANGE_DATE = pd.Timestamp("2021-01-15")
+PRICE_CHANGE_DATE_LABEL = "2021-01-15"
 REGIONS = ["all", "north", "east", "south", "west"]
 
 
@@ -43,11 +44,18 @@ def build_figure(daily_sales: pd.DataFrame, selected_region: str):
 
     figure.update_traces(line=dict(width=4, color="#ff6b35"))
     figure.add_vline(
-        x=PRICE_CHANGE_DATE,
+        x=PRICE_CHANGE_DATE_LABEL,
         line_dash="dash",
         line_color="#183153",
-        annotation_text="Price increase: 2021-01-15",
-        annotation_position="top left",
+    )
+    figure.add_annotation(
+        x=PRICE_CHANGE_DATE_LABEL,
+        y=1.04,
+        xref="x",
+        yref="paper",
+        text="Price increase: 2021-01-15",
+        showarrow=False,
+        font=dict(color="#183153", size=12),
     )
     figure.update_layout(
         margin=dict(l=30, r=30, t=70, b=30),
